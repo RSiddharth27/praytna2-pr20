@@ -1,20 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:praytna2/model/lesson.dart';
 import 'package:flutter/material.dart';
-
-class DetailPage extends StatelessWidget {
+//import 'package:flutter_launch/flutter_launch.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:gestures/gestures.dart';
+class DetailPage1 extends StatelessWidget {
   final Lesson lesson;
-  DetailPage({Key key, this.lesson}) : super(key: key);
+  DetailPage1({Key key, this.lesson}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final levelIndicator = Container(
+    /* final levelIndicator = Container(
       child: Container(
         child: LinearProgressIndicator(
             backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
             value: lesson.indicatorValue,
-            valueColor: AlwaysStoppedAnimation(Colors.green)),
+            valueColor: AlwaysStoppedAnimation(Colors.grey)),
       ),
     );
-
     final coursePrice = Container(
       padding: const EdgeInsets.all(7.0),
       decoration: new BoxDecoration(
@@ -25,19 +27,19 @@ class DetailPage extends StatelessWidget {
         style: TextStyle(color: Colors.white),
       ),
     );
-
+*/
     final topContentText = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(height: 40.0),
         Icon(
-          Icons.developer_mode,
+          Icons.videogame_asset,
           color: Colors.white,
           size: 40.0,
         ),
         Container(
           width: 90.0,
-          child: new Divider(color: Colors.white),
+          child: new Divider(color: Colors.white10),
         ),
         SizedBox(height: 10.0),
         Text(
@@ -48,16 +50,16 @@ class DetailPage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Expanded(flex: 1, child: levelIndicator),
+            //Expanded(flex: 1, child: levelIndicator),
             Expanded(
                 flex: 6,
                 child: Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: Text(
                       lesson.level,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Color.fromRGBO(7, 4, 23, 1.0), fontFamily: 'Quicksand'),
                     ))),
-            Expanded(flex: 1, child: coursePrice)
+            //Expanded(flex: 1, child: coursePrice)
           ],
         ),
       ],
@@ -90,25 +92,66 @@ class DetailPage extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Icon(Icons.arrow_back, color: Color.fromRGBO(45,234,220,1.0)),
+            child: Icon(Icons.arrow_back, color: Colors.white),
           ),
         )
       ],
     );
 
+    _launchURLp ()
+    {
+      const url = 'https://www.prayatna.org.in/';
+      launch(url);
+    }
+    MaterialButton(
+        child: GestureDetector(
+            child: RaisedButton(
+              onPressed: _launchURLp, //() => {},
+              color: Color.fromRGBO(7, 4, 23, 1.0),
+              child:
+              Text("Participate", style: TextStyle(color: Color.fromRGBO(45,234,220,1.0),fontFamily: 'Quicksand'),),
+
+            ))
+    );
+
     final bottomContentText = Text(
       lesson.content,
-      style: TextStyle(fontSize: 18.0),
+      style: TextStyle(fontSize: 18.0, fontFamily: 'Quicksand'),
     );
+
+
+    _launchURL () {
+      const url = 'https://www.prayatna.org.in/';
+      launch(url);
+    }
+
+
+
     final readButton = Container(
         padding: EdgeInsets.symmetric(vertical: 16.0),
         width: MediaQuery.of(context).size.width,
-        child: RaisedButton(
-          onPressed: () => {},
-          color: Color.fromRGBO(58, 66, 86, 1.0),
-          child:
-          Text("BUY PASSES", style: TextStyle(color: Colors.white)),
-        ));
+        child: Column(
+            children: <Widget>[
+              GestureDetector(
+                  child: RaisedButton(
+                    onPressed: _launchURL, //() => {},
+                    color: Color.fromRGBO(7, 4, 23, 1.0),
+                    child:
+                    Text("VIEW RESULT", style: TextStyle(color: Color.fromRGBO(45,234,220,1.0),fontFamily: 'Quicksand'),),
+
+                  )),
+              GestureDetector(
+                  child: RaisedButton(
+                    onPressed: _launchURLp, //() => {},
+                    color: Color.fromRGBO(7, 4, 23, 1.0),
+                    child:
+                    Text("PARTICIPATE", style: TextStyle(color: Color.fromRGBO(45,234,220,1.0),fontFamily: 'Quicksand'),),
+
+                  ))
+            ]));
+
+
+
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(40.0),
@@ -118,11 +161,12 @@ class DetailPage extends StatelessWidget {
         ),
       ),
     );
-
     return Scaffold(
       body: Column(
         children: <Widget>[topContent, bottomContent],
       ),
     );
+
+
   }
 }
